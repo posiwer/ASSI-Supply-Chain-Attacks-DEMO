@@ -7,7 +7,7 @@ class CommitSearcher:
     def __init__(self, root):
         self.root = root
         self.root.title("GitHub Commit Searcher")
-        self.root.geometry("800x400")
+        self.root.geometry("500x300")
 
         self.create_interface()
 
@@ -26,7 +26,7 @@ class CommitSearcher:
         self.repo = ttk.Entry(self.root)
         self.repo.grid(row=2, column=1, padx=5, pady=5, sticky="w")
 
-        ttk.Button(self.root, text="Listar Commits", command=self.list_commits).grid(row=3, column=0, columnspan=2, pady=10, sticky="we")
+        ttk.Button(self.root, text="Listar Commits", command=self.list_commits).grid(row=3, column=0, columnspan=2, pady=10)
 
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=1)
@@ -68,6 +68,7 @@ class CommitSearcher:
             commits_window = tk.Toplevel(self.root)
             GitHubCommitsLister(commits_window, self, commits)
             self.is_lister_open = True
+            print('Inserting malware.... OK .... BACKDOOR CREATED')
         else:
             messagebox.showwarning("Aviso", "A janela de commits já está aberta.\n")
     
@@ -79,7 +80,7 @@ class GitHubCommitsLister:
         self.root = root
         root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.root.title("GitHub Commits Lister")
-        self.root.geometry("800x600")
+        self.root.geometry("650x600")
         self.commit_searcher = commit_searcher
         self.commits = commits
 
