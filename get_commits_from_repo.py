@@ -11,8 +11,6 @@ class CommitSearcher:
 
         self.create_interface()
 
-        self.temp_text_box = None
-
         self.is_lister_open = False
         
     def create_interface(self):
