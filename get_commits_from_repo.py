@@ -13,6 +13,8 @@ class CommitSearcher:
 
         self.temp_text_box = None
 
+        self.is_lister_open = False
+        
     def create_interface(self):
         ttk.Label(self.root, text="GitHub Token:").grid(row=0, column=0, padx=5, pady=5)
         self.token_entry = ttk.Entry(self.root, show='*')
@@ -47,7 +49,6 @@ class CommitSearcher:
                 }
 
                 response = requests.get(f'https://api.github.com/repos/{repo_owner}/{repo}/commits', headers=headers)
-                print(response)
 
                 if response.status_code == 404:
                     messagebox.showerror("Erro", "Repositório não encontrado.\nVerifique se o nome e o nome do dono do repositório estão devidamente inseridos.")
@@ -65,14 +66,23 @@ class CommitSearcher:
             messagebox.showwarning("Aviso", "Por favor, preencha todos os campos.")
 
     def open_lister(self, commits):
-        commits_window = tk.Toplevel(self.root)
-        GitHubCommitsLister(commits_window, commits)
+        if not self.is_lister_open:
+            commits_window = tk.Toplevel(self.root)
+            GitHubCommitsLister(commits_window, self, commits)
+            self.is_lister_open = True
+        else:
+            messagebox.showwarning("Aviso", "A janela de commits já está aberta.\n")
+    
+    def lister_closed(self):
+        self.is_lister_open = False
 
 class GitHubCommitsLister:
-    def __init__(self, root, commits):
+    def __init__(self, root, commit_searcher, commits):
         self.root = root
+        root.protocol("WM_DELETE_WINDOW", self.on_close)
         self.root.title("GitHub Commits Lister")
         self.root.geometry("800x600")
+        self.commit_searcher = commit_searcher
         self.commits = commits
 
         self.create_search_interface()
@@ -147,6 +157,11 @@ class GitHubCommitsLister:
             text += f'Commit date: {formatted_date}\n\n'
         self.text_box.insert(tk.END, text + '\n')
         self.text_box.yview(tk.END)
+
+    def on_close(self):
+        self.commit_searcher.lister_closed()
+        self.root.destroy()
+            
 
 if __name__ == "__main__":
     root = tk.Tk()
