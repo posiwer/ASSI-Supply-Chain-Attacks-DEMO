@@ -7,7 +7,7 @@ class CommitSearcher:
     def __init__(self, root):
         self.root = root
         self.root.title("GitHub Commit Searcher")
-        self.root.geometry("700x400")
+        self.root.geometry("800x400")
 
         self.create_interface()
 
