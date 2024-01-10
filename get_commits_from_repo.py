@@ -151,8 +151,8 @@ class GitHubCommitsLister:
         for commit in commits_to_display:
             commit_date = datetime.strptime(commit["commit"]["committer"]["date"], "%Y-%m-%dT%H:%M:%SZ")
             formatted_date = commit_date.strftime("%d/%m/%Y %H:%M:%S")
-            text += f'Commit message: {commit["commit"]["message"]}\n'
             text += f'Commiter name: {commit["commit"]["committer"]["name"]}\n'
+            text += f'Commit message: {commit["commit"]["message"]}\n'
             text += f'Commit date: {formatted_date}\n\n'
         self.text_box.insert(tk.END, text + '\n')
         self.text_box.yview(tk.END)
