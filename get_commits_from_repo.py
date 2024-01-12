@@ -68,7 +68,6 @@ class CommitSearcher:
             commits_window = tk.Toplevel(self.root)
             GitHubCommitsLister(commits_window, self, commits)
             self.is_lister_open = True
-            print('Inserting malware.... OK .... BACKDOOR CREATED')
         else:
             messagebox.showwarning("Aviso", "A janela de commits já está aberta.\n")
     
